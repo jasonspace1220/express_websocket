@@ -1,0 +1,31 @@
+<html>
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.js"
+        integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM=" crossorigin="anonymous"></script>
+        <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
+    </head>
+
+<body>
+    <div id="area"></div>
+
+    <button id="btn">開始跑</button>
+    <script>
+        var socket = io.connect();
+        socket.on('start', function (data) {
+            $('#area').append(`<p>${data.text}</p>`);
+        });
+        socket.on('data', function (data) {
+            $('#area').append(`<p>${data.text}</p>`);
+        });
+
+        $("#btn").click(function(){
+            socket.emit("run python",{
+                task_id : 12,
+                fb_comment_id : 2
+            })
+        })
+    </script>
+</body>
+
+</html>
