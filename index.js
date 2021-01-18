@@ -39,9 +39,9 @@ io.on("connection", function (socket) {
         await socketStatusChange(socket);
     })
 
-    setInterval(async () => {
-        await socketStatusChange(socket);
-    }, 10000)
+    // setInterval(async () => {
+    //     await socketStatusChange(socket);
+    // }, 10000)
 
     socket.on('disconnect', (reason) => {
         // ...
