@@ -20,11 +20,13 @@ class Model {
                     connection.query(sql, values, (err, rows) => {
 
                         if (err) {
+                            connection.release()
                             reject(err)
                         } else {
+                            connection.release()
                             resolve(rows)
                         }
-                        connection.release()
+                        
                     })
                 }
             })

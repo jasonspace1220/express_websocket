@@ -36,17 +36,17 @@ io.on("connection", function (socket) {
         let cmdData = cmd.runSync(dockerCmd)
 
         await fbcomment.updateOne("status = 2", `id = ${data.fb_comment_id}`)
-        // await socketStatusChange(socket);
+        await socketStatusChange(socket);
         // let fbcomment = new FbComment()
-        let all = await fbcomment.selectAllData();
-        socket.emit("status change", {
-            data: all
-        })
+        // let all = await fbcomment.selectAllData();
+        // socket.emit("status change", {
+        //     data: all
+        // })
     })
 
-    // setInterval(async () => {
-    //     await socketStatusChange(socket);
-    // }, 10000)
+    setInterval(async () => {
+        await socketStatusChange(socket);
+    }, 10000)
 
     socket.on('disconnect', (reason) => {
         // ...
