@@ -30,21 +30,25 @@ io.on("connection", function (socket) {
 
     socket.on("run python", async function (data) {
         let fbcomment = new FbComment()
-        await fbcomment.updateOne("status = 2",`id = ${data.fb_comment_id}`)
+        await fbcomment.updateOne("status = 2", `id = ${data.fb_comment_id}`)
 
         let dockerCmd = `sudo docker run -e db_host=${process.env.DB_HOST} -e db_user=${process.env.DB_USER} -e db_password=${process.env.DB_PASSWORD} -e db_database=${process.env.DB_DATABASE} -e fb_message_id=${data.fb_comment_id} mypython`
         let cmdData = cmd.runSync(dockerCmd)
 
-        await fbcomment.updateOne("status = 2",`id = ${data.fb_comment_id}`)
+        await fbcomment.updateOne("status = 2", `id = ${data.fb_comment_id}`)
         await socketStatusChange(socket);
     })
 
-    setInterval(async()=>{
+    setInterval(async () => {
         await socketStatusChange(socket);
-    },3000)
+    }, 5000)
+
+    socket.on('disconnect', (reason) => {
+        // ...
+    });
 });
 
-async function socketStatusChange(socket){
+async function socketStatusChange(socket) {
     let fbcomment = new FbComment()
     let all = await fbcomment.selectAllData();
     socket.emit("status change", {
